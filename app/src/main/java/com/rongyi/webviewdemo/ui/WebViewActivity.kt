@@ -2,10 +2,15 @@ package com.rongyi.webviewdemo.ui
 
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
+import android.view.KeyEvent
+import android.view.View
 import android.webkit.WebChromeClient
+import android.webkit.WebView
 import android.webkit.WebViewClient
 import com.rongyi.webviewdemo.R
 import kotlinx.android.synthetic.main.activity_web.*
+import android.view.KeyEvent.KEYCODE_BACK
+
 
 /**
  * Demo class
@@ -26,12 +31,32 @@ class WebViewActivity : AppCompatActivity() {
         //使用js
         settings.javaScriptEnabled = true;
 
-        webview.webChromeClient = WebChromeClient()
+        webview.webChromeClient = object : WebChromeClient() {
+            override fun onProgressChanged(view: WebView?, newProgress: Int) {
+
+                if (newProgress == 100) {
+                    myProgressBar.visibility = View.INVISIBLE;
+                } else {
+                    if (View.INVISIBLE == myProgressBar.visibility) {
+                        myProgressBar.visibility = View.VISIBLE;
+                    }
+                    myProgressBar.progress = newProgress;
+                }
+            }
+
+        }
         webview.webViewClient = WebViewClient()
 
         //加载本地网页
         webview.loadUrl(stringExtra)
     }
 
+    override fun onKeyDown(keyCode: Int, event: KeyEvent): Boolean {
+        if (keyCode == KeyEvent.KEYCODE_BACK && webview.canGoBack()) {
+            webview.goBack()// 返回前一个页面
+            return true
+        }
+        return super.onKeyDown(keyCode, event)
+    }
 
 }

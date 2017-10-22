@@ -5,7 +5,7 @@
         <!-- Customize your theme here. -->
         <item name="colorPrimary">#393A3F</item>
         <item name="colorPrimaryDark">#303135</item>
-        <item name="colorAccent">@color/colorAccent</item>
+        <item name="colorAccent">#00ff00</item>
     </style>
 
 </resources>
